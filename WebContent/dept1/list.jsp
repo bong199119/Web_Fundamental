@@ -8,10 +8,85 @@
 	int start = 0;
 	int len = 5;
 	int pageNum =0;
+	int cPage = 0;
+	int totalRows = 0;
+	int totalPage = 0;
+	int startPage = 0;
+	int endPage = 0;
+	int pageLength = 3;
+
+	
 	
 	DeptDao1 dao = DeptDao1.getInstance();
 	ArrayList<DeptDto1> list = dao.select(start, len);
 	
+	
+	String tempPage = request.getParameter("page");
+	if(tempPage == null || tempPage.length() == 0 ){
+		cPage = 1;
+	}
+	try{
+	cPage = Integer.parseInt(tempPage);
+	}catch(NumberFormatException e){
+		cPage = 1;
+	}
+	
+	
+	totalRows = dao.getTotalRows();
+
+	
+	totalPage = totalRows % len == 0 ? totalRows/len : totalRows/len+1;
+	if(totalPage == 0){
+		totalPage =1;
+	}
+	
+	if(totalPage < cPage){
+		response.sendRedirect("list.jsp?page=1");
+		return;
+		//cPage=1;
+	}
+	
+	
+	start = (cPage - 1)*len; 
+	
+	//An = a1 + (n-1)*d
+	
+	pageNum = totalRows + (cPage-1) *(-len);
+	
+	
+	
+	/* totalRows = 132;
+		len = 5;
+		pageLength = 10;
+					startPage 	 endPage
+		cPage = 1		1			10
+		cPage = 5		1			10
+		cPage = 14		11			20
+		cPage = 18 		11			20
+		cPage = 22		21			27
+		
+		cPage = 1-10 n=>1 n=>currentBlock
+		cPage = 11-20  n=> 2  n=>currentBlock
+		
+		startPage = 1 + (currentBlock-1) = pageLength()
+		endPage = pageLength + (currentBlock-1)*pageLength()
+		
+		
+	*/
+	
+	int currentBlock = cPage % pageLength == 0 ?  
+			( cPage / pageLength ) : ( cPage / pageLength + 1 );
+			
+	int totalBlock =  totalPage % pageLength == 0 ?  
+			( totalPage / pageLength ) : ( totalPage / pageLength + 1 );
+			
+	
+	startPage = 1 + (currentBlock-1)*pageLength;
+	endPage = pageLength + (currentBlock-1)*pageLength;
+	
+	if(currentBlock == totalBlock){
+		endPage = totalPage;
+	}
 %>
 
 
@@ -55,8 +130,8 @@
   <%for(DeptDto1 dto : list) {%>
   
     <tr>
-      <th><%=pageNum%></th>
-      <td><%=dto.getNo() %></td>
+      	<td><%= pageNum-- %></td>
+							<td><a href = "view.jsp?page=<%=cPage%>&no=<%=dto.getNo()%>"><%= dto.getNo() %></a></td>
       <td><%=dto.getName() %></td>
       <td><%=dto.getLoc() %></td>
     </tr>
@@ -69,8 +144,38 @@
    <%} %>
   </tbody>
 </table>
-  
-  
+  <nav aria-label="...">
+  <ul class="pagination justify-content-center">
+				<%if(currentBlock == 1) {%>
+					<li class="page-item disabled">
+						<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+					</li>
+					<%}else{ %>
+					<li class="page-item">
+						<a class="page-link" href="list.jsp?page=<%=startPage-1 %>" >Previous</a>
+					</li>
+					<%} %>
+					
+					<%for(int i = startPage; i<=endPage;i++){ %>
+					</li>
+					<li class="page-item <%if(cPage==i) {%>active<% }%>"><a class="page-link" href="list.jsp?page=<%=i%>"><%=i %></a></li>
+					<%} %>
+					
+					<%if(currentBlock == totalBlock){ %>
+					<li class="page-item disabled">
+						<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+					</li>
+					<%}else{ %>
+					<li class="page-item">
+						<a class="page-link" href="list.jsp?page=<%=endPage+1%>">Next</a>
+					</li>
+					<%} %>
+					
+				</ul>
+</nav>
+  <div class="text-right">
+				
+				<a href="write.jsp?page=<%=cPage%>" type = "button" class="btn btn-outline-success">부서등록</a>
       </div>
     </div>
   </div>

@@ -14,6 +14,8 @@
 	int startPage = 0;
 	int endPage = 0;
 	int pageNum = 0;
+	DeptDao dao = DeptDao.getInstance();
+	ArrayList<DeptDto> list = dao.select(start, len);
 	
 	String tempPage = request.getParameter("page");
 	if(tempPage == null || tempPage.length() == 0 ){
@@ -24,16 +26,7 @@
 	}catch(NumberFormatException e){
 		cPage = 1;
 	}
-	if(tempPage == null || tempPage.length() ==0){
-		cPage =1;
-	}
 	
-	try{
-	cPage = Integer.parseInt(tempPage);
-	}catch(NumberFormatException e){
-		cPage = 1;
-	}
-	DeptDao dao = DeptDao.getInstance();
 	
 	totalRows = dao.getTotalRows();
 
@@ -56,7 +49,7 @@
 	
 	pageNum = totalRows + (cPage-1) *(-len);
 	
-	ArrayList<DeptDto> list = dao.select(start, len);
+	
 	
 	/* totalRows = 132;
 		len = 5;

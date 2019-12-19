@@ -85,7 +85,48 @@ public class DeptDao1 {
 		return list;
 		
 	}
-	
+
+	public int getTotalRows() {
+
+		int rows = 0;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ConnLocator.getConnection();
+
+			StringBuffer sql = new StringBuffer();
+			sql.append("SELECT COUNT(deptno) ");
+			sql.append("FROM dept ");
+			pstmt = con.prepareStatement(sql.toString());
+			rs = pstmt.executeQuery();
+			int index = 0;
+			if (rs.next()) {
+				rows = rs.getInt(++index);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (con != null)
+					con.close();
+
+			} catch (SQLException e) {
+
+			}
+		}
+
+		return rows;
+	}
 	
 	
 	
