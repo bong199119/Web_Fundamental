@@ -1,6 +1,47 @@
+<%@page import="kr.co.acorn.dto.DeptDto"%>
+<%@page import="kr.co.acorn.dao.DeptDao"%>
 <%@ page pageEncoding="utf-8"%>
 <%@ include file="../inc/header.jsp"%>
-
+<%
+	String tempPage = request.getParameter("page");
+	String tempNo = request.getParameter("no");
+	if(tempPage == null || tempPage.length() == 0){
+		tempPage = "1";
+	}
+	if(tempNo == null || tempNo.length() == 0){
+		response.sendRedirect("list.jsp?page="+tempPage);
+		return;
+	}
+	int cPage = 0;
+	int no = 0;
+	
+	try{
+		cPage = Integer.parseInt(tempPage);
+	}catch(NumberFormatException e){
+		cPage = 1;
+	}
+	
+	try{
+		no = Integer.parseInt(tempNo);
+	}catch(NumberFormatException e){
+		response.sendRedirect("list.jsp?page="+tempPage);
+		return;
+	}
+	
+	
+	DeptDao dao = DeptDao.getInstance();
+	DeptDto dto = dao.select(no);
+	
+	if(dto==null){
+		response.sendRedirect("list.jsp?page="+tempPage);
+		return;
+	}
+	
+	String name = dto.getName();
+	String loc = dto.getLoc();
+	
+	
+%>
 
 <!--  -->
 
@@ -25,8 +66,8 @@
 					<!-- sm크기가 2보다 작으면 내려서-->
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
-						<input type="number" class="form-control" id="no" name="no"
-							value="10">
+						<input type="number" class="form-control" id="no" name="no" readonly="readonly"
+							value="<%=no%>">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -35,7 +76,7 @@
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
 						<input type="text" class="form-control" id="name" name="name"
-							value="총무부">
+							value="<%=name%>">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -44,13 +85,14 @@
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
 						<input type="text" class="form-control" id="loc" name="loc"
-							value="서울">
+							value="<%=loc%>">
 					</div>
 				</div>
+				<input type = "hidden" name = "page" value="<%=cPage%>"/>
 
 			</form>
 			<div class="text-right">
-						<a href="list.jsp" class="btn btn-outline-secondary">목록</a>
+						<a href="list.jsp?page=<%=cPage%>" type = "button" class="btn btn-outline-secondary">목록</a>
 						<button type="button" id ="updateDept" class="btn btn-outline-success">수정</button>
 						<button type="button" id = "deleteDept" class="btn btn-outline-danger">삭제</button>
 			</div>
