@@ -4,19 +4,17 @@
 <%@ page pageEncoding="utf-8"%>
 <%@ include file="../inc/header.jsp"%>
 
-
 <%
 	int len = 5;
 	int pageLength = 3;
 	int cPage = 0;
 	int start = 0;
-	
 	int totalRows = 0;
 	int totalPage = 0;
 	int startPage = 0;
 	int endPage = 0;
-	
 	int pageNum = 0;
+	
 	String tempPage = request.getParameter("page");
 	if(tempPage == null || tempPage.length() == 0 ){
 		cPage = 1;
@@ -52,11 +50,9 @@
 	}
 	
 	
-	
 	start = (cPage - 1)*len; 
 	
 	//An = a1 + (n-1)*d
-	
 	
 	pageNum = totalRows + (cPage-1) *(-len);
 	
@@ -81,7 +77,6 @@
 		
 	*/
 	
-	
 	int currentBlock = cPage % pageLength == 0 ?  
 			( cPage / pageLength ) : ( cPage / pageLength + 1 );
 			
@@ -89,7 +84,6 @@
 			( totalPage / pageLength ) : ( totalPage / pageLength + 1 );
 			
 	
-			
 	startPage = 1 + (currentBlock-1)*pageLength;
 	endPage = pageLength + (currentBlock-1)*pageLength;
 	
@@ -191,7 +185,7 @@
 
 	</div>
 </div>
-</div>
+
 <!-- main end-->
 
 <%@ include file="../inc/footer.jsp"%>

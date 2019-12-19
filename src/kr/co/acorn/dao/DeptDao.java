@@ -11,7 +11,6 @@ import kr.co.acorn.util.ConnLocator;
 
 public class DeptDao {
 	private static DeptDao single;
-
 	private DeptDao() {
 	}
 
@@ -25,12 +24,15 @@ public class DeptDao {
 
 	public ArrayList<DeptDto> select(int start, int len) {
 		ArrayList<DeptDto> list = new ArrayList<DeptDto>();
-
+		//드라이버로드가 필요없다
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
+			// 2. 데이터 베이스와 연결
 			con = ConnLocator.getConnection();
+			
+			//3. PreParedStatement 객체를 생성
 			StringBuffer sql = new StringBuffer();
 			sql.append("SELECT deptno, dname, loc ");
 			sql.append("FROM dept ");
@@ -38,6 +40,9 @@ public class DeptDao {
 			sql.append("LIMIT ?,? ");
 
 			pstmt = con.prepareStatement(sql.toString());
+			
+			
+			//4. 바인딩 변수를 설정한다.
 			int index = 0;
 			pstmt.setInt(++index, start);
 			pstmt.setInt(++index, len);

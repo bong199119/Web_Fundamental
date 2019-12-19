@@ -13,6 +13,17 @@ public class EmpDto {
 	public int getNo() {
 		return no;
 	}
+	public EmpDto(int no, String name, String job, int mgr, String hiredate, int sal, int comm, DeptDto deptDto) {
+		super();
+		this.no = no;
+		this.name = name;
+		this.job = job;
+		this.mgr = mgr;
+		this.hiredate = hiredate;
+		this.sal = sal;
+		this.comm = comm;
+		this.deptDto = deptDto;
+	}
 	public void setNo(int no) {
 		this.no = no;
 	}
