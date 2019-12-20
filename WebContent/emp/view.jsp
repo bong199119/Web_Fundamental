@@ -124,7 +124,7 @@
 					<!-- sm크기가 2보다 작으면 내려서-->
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
-						<input type="number" class="form-control" id="deptNo" name="detpNo" value="<%=deptNo %>">
+						<input type="number" class="form-control" id="deptNo" name="deptNo" value="<%=deptNo %>">
 					</div>
 				</div>
 				<input type = "hidden" name = "page" value="<%=cPage%>"/>
