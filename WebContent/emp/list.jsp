@@ -1,6 +1,6 @@
-<%@ page import="kr.co.acorn.dto.DeptDto"%>
+<%@page import="kr.co.acorn.dto.EmpDto"%>
+<%@page import="kr.co.acorn.dao.EmpDao"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="kr.co.acorn.dao.DeptDao"%>
 <%@ page pageEncoding="utf-8"%>
 <%@ include file="../inc/header.jsp"%>
 
@@ -35,11 +35,9 @@
 	}catch(NumberFormatException e){
 		cPage = 1;
 	}
-	DeptDao dao = DeptDao.getInstance();
 	
+	EmpDao dao = EmpDao.getInstance();
 	totalRows = dao.getTotalRows();
-
-	
 	totalPage = totalRows % len == 0 ? totalRows/len : totalRows/len+1;
 	if(totalPage == 0){
 		totalPage =1;
@@ -57,11 +55,9 @@
 	
 	//An = a1 + (n-1)*d
 	
-	
 	pageNum = totalRows + (cPage-1) *(-len);
-	
-	ArrayList<DeptDto> list = dao.select(start, len);
-	
+	ArrayList<EmpDto> list = dao.select(start, len);
+
 	/* totalRows = 132;
 		len = 5;
 		pageLength = 10;
@@ -104,7 +100,7 @@
 <nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="#">Home</a></li>
-		<li class="breadcrumb-item active" aria-current="page">사원관린</li>
+		<li class="breadcrumb-item active" aria-current="page">사원관리</li>
 	</ol>
 </nav>
 <!-- breadcrumb end-->
@@ -116,12 +112,13 @@
 			<div class="table-responsive-lg">
 			<table class="table table-hover">
 				<colgroup>
-					<col width="12%" />
+					<col width="10%" />
 					<col width="15%" />
 					<col width="15%" />
 					<col width="15%" />
 					<col width="15%" />
-					<col width="28%" />
+					<col width="15%" />
+					<col width="15%" />
 				</colgroup>
 				<thead>
 					<tr>	
@@ -130,25 +127,30 @@
 						<th scope="col">사원이름</th>
 						<th scope="col">직책</th>
 						<th scope="col">사수</th>
+						<th scope="col">부서이름</th>
 						<th scope="col">입사일</th>
 					</tr>
 				</thead>
 				<tbody>
+				<%if(list.size() != 0) {%>
+				<%for(EmpDto dto : list) {%>
 			
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td><%=pageNum-- %></td>
+							<td><a href="view.jsp?page=<%=cPage%>&no=<%=dto.getNo()%>"><%=dto.getNo() %></a></td>
+							<td><%=dto.getName() %></td>
+							<td><%=dto.getJob() %></td>
+							<td><%=dto.getMgr() %></td>
+							<td><a href="../dept/view.jsp?page=<%=cPage%>&no=<%=dto.getDeptDto().getNo()%>"><%=dto.getDeptDto().getName() %></a></td>         
+							<td><%=dto.getHiredate() %></td>
 						</tr>
-						
-			
+					<%} %>
+					<%}else{%>
+				
 					<tr>
 						<td colspan="6">데이터가 존재하지 않습니다.</td>
 					</tr>
-			
+					<%} %>			
 				</tbody>
 			</table>
 			</div>

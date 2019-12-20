@@ -1,5 +1,5 @@
-<%@page import="kr.co.acorn.dto.DeptDto"%>
-<%@page import="kr.co.acorn.dao.DeptDao"%>
+<%@page import="kr.co.acorn.dto.EmpDto"%>
+<%@page import="kr.co.acorn.dao.EmpDao"%>
 <%@ page pageEncoding="utf-8"%>
 <%@ include file="../inc/header.jsp"%>
 <%
@@ -24,23 +24,27 @@
 	try{
 		no = Integer.parseInt(tempNo);
 	}catch(NumberFormatException e){
-		response.sendRedirect("list.jsp?page="+tempPage);
+		response.sendRedirect("list.jsp?page="+cPage);
 		return;
 	}
 	
 	
-	DeptDao dao = DeptDao.getInstance();
-	DeptDto dto = dao.select(no);
+	EmpDao dao = EmpDao.getInstance();
+	EmpDto dto = dao.select(no);
 	
 	if(dto==null){
-		response.sendRedirect("list.jsp?page="+tempPage);
+		response.sendRedirect("list.jsp?page="+cPage);
 		return;
 	}
 	
 	String name = dto.getName();
-	String loc = dto.getLoc();
-	
-	
+	String job = dto.getJob();
+	int mgr = dto.getMgr();
+	String hiredate = dto.getHiredate();
+	int sal = dto.getSal();
+	int comm = dto.getComm();
+	int deptNo = dto.getDeptDto().getNo();
+		
 %>
 
 <!--  -->
@@ -48,7 +52,7 @@
 <!-- breadcrumb start-->
 <nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#">Home</a></li>
+		<li class="breadcrumb-item"><a href="/index.jsp">Home</a></li>
 		<li class="breadcrumb-item active" aria-current="page">사원관리</li>
 	</ol>
 </nav>
@@ -56,16 +60,15 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12">
-			<h3 class="display-3">Department</h3>
-			<h3 class="display-3">상세보기</h3>
-
+			
+			<h3>사원상세보기</h3>
 			<form name="f" method="post">
 					<div class="form-group row">
 					<label for="no" class="col-sm-2 col-form-label">사원번호</label>
 					<!-- sm크기가 2보다 작으면 내려서-->
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
-						<input type="number" class="form-control" id="no" name="no">
+						<input type="number" class="form-control" id="no" readonly= "readonly" name="no" value="<%=no %>">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -73,7 +76,7 @@
 					<!-- sm크기가 2보다 작으면 내려서-->
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
-						<input type="text" class="form-control" id="name" name="name">
+						<input type="text" class="form-control" id="name" name="name" value="<%=name %>">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -81,7 +84,7 @@
 					<!-- sm크기가 2보다 작으면 내려서-->
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
-						<input type="text" class="form-control" id="job" name="job">
+						<input type="text" class="form-control" id="job" name="job" value="<%=job %>">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -89,7 +92,15 @@
 					<!-- sm크기가 2보다 작으면 내려서-->
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
-						<input type="number" class="form-control" id="mgr" name="mgr">
+						<input type="number" class="form-control" id="mgr" name="mgr" value="<%=mgr %>">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="hiredate" class="col-sm-2 col-form-label">입사날짜</label>
+					<!-- sm크기가 2보다 작으면 내려서-->
+					<div class="col-sm-10">
+						<!-- sm크기가 10보다 크면 정상적으로-->
+						<input type="text" class="form-control" id="hiredate" readonly="readonly" name="hiredate" value="<%=hiredate %>">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -97,7 +108,7 @@
 					<!-- sm크기가 2보다 작으면 내려서-->
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
-						<input type="number" class="form-control" id="sal" name="sal">
+						<input type="number" class="form-control" id="sal" name="sal" value="<%=sal %>">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -105,7 +116,7 @@
 					<!-- sm크기가 2보다 작으면 내려서-->
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
-						<input type="number" class="form-control" id="comm" name="comm">
+						<input type="number" class="form-control" id="comm" name="comm" value="<%=comm %>">
 					</div>
 				</div>
 				<div class="form-group row">
@@ -113,14 +124,14 @@
 					<!-- sm크기가 2보다 작으면 내려서-->
 					<div class="col-sm-10">
 						<!-- sm크기가 10보다 크면 정상적으로-->
-						<input type="number" class="form-control" id="deptNo" name="detpNo">
+						<input type="number" class="form-control" id="deptNo" name="detpNo" value="<%=deptNo %>">
 					</div>
 				</div>
 				<input type = "hidden" name = "page" value="<%=cPage%>"/>
 
 			</form>
 			<div class="text-right">
-						<a href="list.jsp?page=<%=cPage%>"  class="btn btn-outline-secondary">목록</a>
+						<a href="list.jsp?page=<%=cPage %>"	class="btn btn-outline-secondary">목록</a>
 						<button type="button" id ="updateEmp" class="btn btn-outline-success">수정</button>
 						<button type="button" id = "deleteEmp" class="btn btn-outline-danger">삭제</button>
 			</div>
@@ -132,21 +143,12 @@
 
 <%@ include file="../inc/footer.jsp"%>
 
-
-  
   <script>
   
   	$(function(){
   		$("#no").focus();
-  		$("#saveEmp").click(function(){
-  			//자바스크립트 유효성 검사
-  			
-  			if($("#no").val().length==0){
-  				alert("사원번호를 입력하세요.");
-  				$("#no").focus();
-  				return;
-  			}
-  			
+  		$("#updateEmp").click(function(){
+  		
   			
   			if($("#name").val().length==0){
   				alert("이름을 입력하세요.");
@@ -174,7 +176,13 @@
   				$("#deptNo").focus();
   				return;
   			}
+  			f.action="update.jsp";
   			f.submit();
+  		});
+  		$('#deleteEmp').click(function(){
+  			f.action = "delete.jsp";
+  			f.submit();
+  			
   		});
 	
   	});

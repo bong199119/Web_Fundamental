@@ -10,6 +10,10 @@ public class DeptDto {
 		this.name = name;
 		this.loc = loc;
 	}
+	public DeptDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public int getNo() {
 		return no;
 	}

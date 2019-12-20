@@ -91,7 +91,7 @@
 <nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="#">Home</a></li>
-		<li class="breadcrumb-item active" aria-current="page">Library</li>
+		<li class="breadcrumb-item active" aria-current="page">부서관리</li>
 	</ol>
 </nav>
 <!-- breadcrumb end-->
@@ -99,7 +99,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 
-			<h3>버킷리스트(<%=totalRows %>)</h3>
+			<h3>부서리스트(<%=totalRows %>)</h3>
 			<div class="table-responsive-lg">
 			<table class="table table-hover">
 				<colgroup>
