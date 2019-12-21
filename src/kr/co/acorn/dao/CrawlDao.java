@@ -75,6 +75,18 @@ public class CrawlDao {
 		return list;
 
 	}
-	
+	public int getTotalRows(ArrayList<CrawlDto> list) {
+		
+		int row = 0;
+		
+		for(CrawlDto dto : list) {
+			row++;
+		}
+		
+		
+		
+		return row;
+		
+	}
 	
 }

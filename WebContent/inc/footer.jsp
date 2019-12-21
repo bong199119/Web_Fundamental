@@ -1,14 +1,14 @@
 <%@ page pageEncoding="utf-8"%>
-
-  <!-- footer start-->
+<!-- 
+  footer start
   <footer class="bg-dark bd-footer fixed-bottom" style="color:white;padding:1em;margin-top: 1em;">
     <div class="container-fluid text-center">
       <p>Since 2019-12-13</p>
     </div>
   </footer>
-  <!-- footer end-->
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  footer end
+  Optional JavaScript
+  jQuery first, then Popper.js, then Bootstrap JS
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
     crossorigin="anonymous"></script>
@@ -20,4 +20,4 @@
     crossorigin="anonymous"></script>
 </body>
 
-</html>
+</html> -->
