@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>step02_ajax_jquery_json.html</title>
+<script src ="../js/jquery-3.4.1.js"></script>
+
+<script>
+/* 달라펑션은 전체가 모두 호출된뒤 호출됨 -> 굳이 맨아래에 쓸필요 없음 */
+$(function(){
+	$("#loadAjax").click(function(){
+		$.ajax({
+			//type : 'GET',
+			//url : 'emp_json.jsp?start=0&lenth=10',
+			type : 'POST',
+			url : 'emp_json.jsp',
+			data : {"start" : 0, "length" : 5},
+					dataType : 'json',//xml,html
+			error : function(){
+				alert('Json Load Error');
+			},
+			
+			success : function(obj){
+				console.log(obj);
+				console.log(typeof obj);
+				const listArray = obj.items;
+				let msg = '';
+				for (let i = 0; i < listArray.length; i++) {
+					let no = listArray[i].no;
+					let name = listArray[i].name;
+					msg += no + "," + name + "<br>";
+				}
+				$("#bong").html(msg);
+			}
+	});
+	
+	});	
+	
+	
+});
+
+
+</script>
+
+
+</head>
+<body>
+
+	<div id="bong"></div>
+	<button id="loadAjax">Ajax 불러오기</button>
+
+</body>
+
+<script>
+	
+</script>
+</html>
+
+
+
+
