@@ -11,7 +11,7 @@ public class MemberDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public MemberDto(String email, String name, String password, String phone, String regdate) {
+	public MemberDto( String name, String email, String password, String phone, String regdate) {
 		super();
 		this.email = email;
 		this.name = name;

@@ -1,5 +1,5 @@
-<%@page import="kr.co.acorn.dto.EmpDto"%>
-<%@page import="kr.co.acorn.dao.EmpDao"%>
+<%@page import="kr.co.acorn.dto.MemberDto"%>
+<%@page import="kr.co.acorn.dao.MemberDao"%>
 <%@ page pageEncoding="utf-8"%>
 <%@ include file="../inc/header.jsp"%>
 <%

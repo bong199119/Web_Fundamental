@@ -36,9 +36,12 @@
             <li class="nav-item <%if(uri.startsWith("/emp")){ %>active <%}%>">
           <a class="nav-link" href="/emp/list.jsp">사원관리</a>
         </li>
-          </li>
+         
             <li class="nav-item <%if(uri.startsWith("/crawling")){ %>active <%}%>">
           <a class="nav-link" href="/crawling/list.jsp">크롤링</a>
+        </li>
+          <li class="nav-item <%if(uri.startsWith("/member")){ %>active <%}%>">
+          <a class="nav-link" href="/member/list.jsp">회원관리</a>
         </li>
         <li class="nav-item" <%if(uri.startsWith("/notice")){ %>active <%}%>>
           <a class="nav-link" href="/notice/list.jsp">공지사항</a>
