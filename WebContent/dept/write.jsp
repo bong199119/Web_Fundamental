@@ -60,9 +60,11 @@
 
 			</form>
 			<div class="text-right">
-				<a href="list.jsp?page=<%=cPage%>" class="btn btn-outline-secondary">목록</a>
+		
+				<a href="list.jsp?page=<%=cPage%>" type="button" class="btn btn-outline-secondary">목록</a>
+				<%if(memberDto != null) {%>
 				<button type="button" id = "saveDept" class="btn btn-outline-success">저장</button>
-			
+				<%} %>
 			</div>
 
 		</div>
