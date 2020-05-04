@@ -110,8 +110,8 @@ public class MemberDao {
     		try {
     			con = ConnLocator.getConnection();
     			StringBuffer sql = new StringBuffer();
-    			sql.append("SELECT name, email, phone, regdate ");
-    			sql.append("FROM member ");
+    			sql.append("SELECT mname, email, phone, regdate ");
+    			sql.append("FROM mem ");
     			sql.append("ORDER BY regdate DESC ");
     			sql.append("LIMIT ? , ? ");
     			pstmt = con.prepareStatement(sql.toString());
@@ -128,7 +128,6 @@ public class MemberDao {
     				String phone = rs.getString(++index);
     				String regdate = rs.getString(++index);
     				
-    			
     				list.add(new MemberDto(name,email,null,phone,regdate));
     			}
     			
@@ -147,6 +146,54 @@ public class MemberDao {
     		return list;
     	}
     	
+    	public MemberDto select(String name) {
+    		MemberDto dto = null;
+
+    		Connection con = null;
+    		PreparedStatement pstmt = null;
+    		ResultSet rs = null;
+    		try {
+    			con = ConnLocator.getConnection();
+    			StringBuffer sql = new StringBuffer();
+    			sql.append("SELECT mname, email, phone, regdate ");
+    			sql.append("FROM mem ");
+    			sql.append("WHERE mname = ? ");
+    			
+    			pstmt = con.prepareStatement(sql.toString());
+    			int index = 0;
+
+    			pstmt.setString(++index, name);
+
+    			rs = pstmt.executeQuery();
+    			if (rs.next()) {
+    				index = 0;
+    				String mname = rs.getString(++index);
+    				String email = rs.getString(++index);
+    				String phone = rs.getString(++index);
+    				String regdate = rs.getString(++index);
+    				dto = new MemberDto(mname, email, null, phone, regdate);
+
+    			}
+    		} catch (SQLException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		} finally {
+    			try {
+
+    				if (rs != null)
+    					rs.close();
+    				if (pstmt != null)
+    					pstmt.close();
+    				if (con != null)
+    					con.close();
+
+    			} catch (SQLException e) {
+
+    			}
+    		}
+    		return dto;
+    	}
+    	
     	
     	public boolean update(MemberDto dto) {
     		boolean isSuccess = false;
@@ -155,9 +202,9 @@ public class MemberDao {
     		try {
     			con = ConnLocator.getConnection();
     			StringBuffer sql = new StringBuffer();
-    			sql.append("UPDATE member ");
-    			sql.append("SET name=?, email=?, password=?, phone=?, regdate=? ");
-    			sql.append("WHERE name = ?");
+    			sql.append("UPDATE mem ");
+    			sql.append("SET mname=?, email=?, pass=PASSWORD(?), phone=?, regdate=? ");
+    			sql.append("WHERE mname = ?");
     			
     			pstmt = con.prepareStatement(sql.toString());
     			int index = 0;
